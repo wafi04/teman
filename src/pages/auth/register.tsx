@@ -16,6 +16,7 @@ import { Label } from "../../components/ui/label";
 import { RegisterSchema, RegisterInput } from "../../validation/auth";
 import { RegisterMutation } from "../../api/auth_register";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 export function Register() {
   const create = RegisterMutation();
@@ -167,7 +168,7 @@ export function Register() {
               </div>
             </div>
 
-            <CardFooter className="flex justify-between mt-4 p-0">
+            <CardFooter className="flex flex-col mt-4 p-0">
               <Button type="submit" disabled={isSubmitting} className="w-full">
                 {isSubmitting ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -175,6 +176,16 @@ export function Register() {
                   "Daftar"
                 )}
               </Button>
+              <div className="flex items-start justify-start mt-4">
+                <p className="text-sm text-gray-600">
+                  Already have an account?{" "}
+                  <Link
+                    to="/login"
+                    className="text-blue-600 hover:underline font-medium">
+                    Sign In
+                  </Link>
+                </p>
+              </div>
             </CardFooter>
           </form>
         </CardContent>

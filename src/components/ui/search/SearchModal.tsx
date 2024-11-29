@@ -28,9 +28,6 @@ export function SearchModal({
         <div className="mt-2">
           <h2 className="font-bebas text-xl truncate">{product.name}</h2>
           <h3 className="text-gray-500 truncate">{product.category.name}</h3>
-          <p className="text-md font-semibold">
-            {/* Rp. {product.variants[0].price.toFixed(2)} */}
-          </p>
         </div>
       </a>
     </div>

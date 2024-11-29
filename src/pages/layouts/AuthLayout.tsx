@@ -25,9 +25,10 @@ const getRedirectPath = (
   currentPath: string
 ): string | null => {
   if (layoutType === "protected" && !isAuthenticated) {
-    return "/auth/login";
+    return "/login";
   }
 
+  // If it's an auth route (like login page) and user is authenticated with a profile, redirect to dashboard
   if (layoutType === "auth" && isAuthenticated && hasProfile) {
     return "/dashboard";
   }
@@ -80,6 +81,15 @@ export function MainLayout({
     layoutType,
     location.pathname,
   ]);
+  useEffect(() => {
+    console.log("Layout Context:", {
+      isAuthenticated,
+      isLoading,
+      hasProfile,
+      currentPath: location.pathname,
+      layoutType,
+    });
+  }, [isAuthenticated, isLoading, hasProfile, location.pathname, layoutType]);
 
   // Show loading overlay while checking auth status for protected routes
   if (layoutType === "protected" && isLoading) {

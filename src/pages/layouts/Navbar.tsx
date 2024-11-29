@@ -22,7 +22,7 @@ import SearchInput from "../../components/ui/search/SearchInput";
 import { useAuth } from "../../provider/AuthProvider";
 
 export function Navbar() {
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
 
   const { data } = getNotificationSeller();
   const { data: usernotif } = getNotificationUser();
@@ -43,7 +43,7 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="sm"
-              //   onClick={() => logout.mutate()}
+              onClick={logout}
               className="flex items-center space-x-2">
               <LogOut className="w-4 h-4" />
               <span>Logout</span>
@@ -62,16 +62,11 @@ export function Navbar() {
           </a>
 
           {/* Navigation Links */}
-          <nav className="hidden md:flex space-x-6 items-center ">
+          <nav className="hidden md:flex space-x-6 items-center font-bebas">
             <a
               href="/dashboard"
               className="text-lg font-medium text-gray-700 hover:text-primary transition-colors">
               Dashboard
-            </a>
-            <a
-              href="/p"
-              className="text-lg font-medium text-gray-700 hover:text-primary transition-colors">
-              Products
             </a>
           </nav>
 
@@ -153,7 +148,7 @@ export function Navbar() {
                       <span>Profile</span>
                     </a>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={logout}>
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Logout</span>
                   </DropdownMenuItem>

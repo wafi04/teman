@@ -16,6 +16,8 @@ import { Label } from "../../components/ui/label";
 import { loginInput, loginSchema } from "../../validation/auth";
 import { LoginMutation } from "../../api/auth_Login";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
+import { AuthLayout } from "../layouts/AuthLayout";
 
 export function LoginPage() {
   const loginMutation = LoginMutation();
@@ -54,79 +56,92 @@ export function LoginPage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>
-            Silakan masukkan email dan password Anda
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Input Email */}
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Masukkan email"
-                {...register("email")}
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm">{errors.email.message}</p>
-              )}
-            </div>
-
-            {/* Input Password */}
-            <div className="flex flex-col space-y-1.5 relative">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
+    <AuthLayout title="Login page">
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle>Login</CardTitle>
+            <CardDescription>
+              Silakan masukkan email dan password Anda
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              {/* Input Email */}
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Masukkan password"
-                  {...register("password")}
-                  className="pr-10"
+                  id="email"
+                  type="email"
+                  placeholder="Masukkan email"
+                  {...register("email")}
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
+              </div>
+
+              {/* Input Password */}
+              <div className="flex flex-col space-y-1.5 relative">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Masukkan password"
+                    {...register("password")}
+                    className="pr-10"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+                    onClick={togglePasswordVisibility}>
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4 text-gray-500" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-gray-500" />
+                    )}
+                  </Button>
+                </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              <CardFooter className="p-0 mt-4 flex flex-col">
                 <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
-                  onClick={togglePasswordVisibility}>
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4 text-gray-500" />
+                  type="submit"
+                  disabled={isSubmitting || loginMutation.isPending}
+                  className="w-full">
+                  {isSubmitting || loginMutation.isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Memproses...
+                    </>
                   ) : (
-                    <Eye className="h-4 w-4 text-gray-500" />
+                    "Login"
                   )}
                 </Button>
-              </div>
-              {errors.password && (
-                <p className="text-red-500 text-sm">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
 
-            <CardFooter className="p-0 mt-4">
-              <Button
-                type="submit"
-                disabled={isSubmitting || loginMutation.isPending}
-                className="w-full">
-                {isSubmitting || loginMutation.isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Memproses...
-                  </>
-                ) : (
-                  "Login"
-                )}
-              </Button>
-            </CardFooter>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+                <div className="flex items-start justify-start mt-4">
+                  <p className="text-sm text-gray-600">
+                    Don't have an account?{" "}
+                    <Link
+                      to="/register"
+                      className="text-blue-600 hover:underline font-medium">
+                      Sign Up
+                    </Link>
+                  </p>
+                </div>
+              </CardFooter>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </AuthLayout>
   );
 }

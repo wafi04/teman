@@ -10,7 +10,6 @@ interface OpenSearchProps {
   isLoading: boolean;
   status: "error" | "success" | "pending";
   data: Product[] | undefined;
-  handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   toogleSearch: () => void;
 }
@@ -21,7 +20,6 @@ export function OpenSearch({
   isLoading,
   search,
   status,
-  handleKeyDown,
   setSearch,
   toogleSearch,
 }: OpenSearchProps) {
@@ -35,7 +33,6 @@ export function OpenSearch({
             type="text"
             placeholder="Search for products..."
             value={search}
-            onKeyDown={handleKeyDown}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full text-xl py-3 pl-12 pr-12 bg-gray-100 rounded-full focus:ring-0"
           />

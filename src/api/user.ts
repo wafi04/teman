@@ -11,14 +11,12 @@ export function useProfile() {
       if (!token) {
         throw new Error("No token found");
       }
-
       const { data } = await axios.get(`${BASE_URL}/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
-      console.log(data);
       return data;
     },
     retry: 1,

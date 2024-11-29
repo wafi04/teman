@@ -16,6 +16,9 @@ const LoginUser = async (loginInput: loginInput) => {
       password: loginInput.password,
     }),
   });
+  if (!response.ok) {
+    toast.error("Password atau email salah");
+  }
 
   return await response.json();
 };
@@ -24,18 +27,28 @@ export function LoginMutation() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   return useMutation({
-    mutationKey: ["register"],
+    mutationKey: ["login"],
     mutationFn: (data: loginInput) => LoginUser(data),
     onError: (error: Error) => {
+      toast.error("login errorr");
       queryClient.cancelQueries({ queryKey: ["user"] });
-      toast.success("Registered errorr");
     },
     onSuccess: (data) => {
-      toast.success("register success");
-      console.log(data);
-      localStorage.setItem("token", data.data.token);
-      navigate("/");
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      if (data && data.data && data.data.token) {
+        // Simpan token
+        localStorage.setItem("token", data.data.token);
+
+        // Invalidate user queries
+        queryClient.invalidateQueries({ queryKey: ["user"] });
+
+        // Success toast
+        toast.success("Login berhasil");
+
+        // Navigate ke dashboard
+        window.location.href = "/dashboard";
+      } else {
+        toast.error("Gagal mendapatkan token");
+      }
     },
   });
 }

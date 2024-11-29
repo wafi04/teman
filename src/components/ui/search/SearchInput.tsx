@@ -8,7 +8,6 @@ import { useGetProducts } from "../../../api/products/products.query";
 export default function SearchInput() {
   const {
     debouncedSearch,
-    handleKeyDown,
     inputRef,
     openSearch,
     searchRef,
@@ -66,7 +65,6 @@ export default function SearchInput() {
             data={product}
             status={status}
             inputRef={inputRef}
-            handleKeyDown={handleKeyDown}
             toogleSearch={toggleSearch}
             isLoading={isFetching}
             search={debouncedSearch}
