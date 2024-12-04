@@ -1,4 +1,3 @@
-import React from "react";
 import { ShoppingCart, MapPin, CreditCard, Package } from "lucide-react";
 import { Badge } from "../../../components/ui/badge";
 import { Card, CardContent, CardHeader } from "../../../components/ui/card";
@@ -10,6 +9,7 @@ interface CartItemsProps {
 }
 
 export function DetailedCartItems({ order }: CartItemsProps) {
+  console.log(order);
   const getStatusColor = (status: string) => {
     switch (status) {
       case "pending":
@@ -71,7 +71,10 @@ export function DetailedCartItems({ order }: CartItemsProps) {
               <h4 className="font-semibold text-gray-700">Payment Method</h4>
             </div>
             <p className="text-sm text-gray-600 capitalize">
-              {order.payment_method || "No payment method"}
+              {order.payment_method || "No payment method"} - {order?.bank_name}
+            </p>
+            <p className="text-sm text-gray-600 capitalize">
+              {order?.virtual_account}
             </p>
           </div>
 

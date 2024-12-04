@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useProductById } from "../../api/products/products.query";
 import { Button } from "../../components/ui/button";
 import { ProtectedLayout } from "../layouts/AuthLayout";
@@ -7,9 +7,11 @@ import { useCart } from "../../hooks/useCart";
 import { Inventory, ProductVariant } from "../../types/products";
 import { ShoppingCart, Minus, Plus, Heart } from "lucide-react";
 import { useCreateCart } from "../../api/order/order";
+import { useAuth } from "../../provider/AuthProvider";
 
 export function ProductId() {
   const { id } = useParams();
+  const { user } = useAuth();
   const { data, isLoading, error } = useProductById(id as string);
   const add = useCreateCart();
   // Use useMemo to always have a consistent initial variant
@@ -150,36 +152,43 @@ export function ProductId() {
               </div>
             )}
 
-            {/* Action Buttons */}
-            <div className="flex space-x-4">
-              <Button
-                className="flex-1 flex items-center gap-2"
-                disabled={!selectedSize || quantity === 0}
-                onClick={() => {
-                  // Pastikan selectedVariant dan selectedSize tersedia
-                  if (selectedVariant && selectedSize) {
-                    // Cari inventory yang sesuai dengan size yang dipilih
-                    const selectedInventory = selectedVariant.inventories?.find(
-                      (inv) => inv.size === selectedSize
-                    );
+            {user?.id === data.seller_id ? (
+              <Link to={"/dashboard"}>
+                <Button className="mt-4">Go to Dashboard</Button>
+              </Link>
+            ) : (
+              // {/* Action Buttons */}
+              <div className="flex space-x-4">
+                <Button
+                  className="flex-1 flex items-center gap-2"
+                  disabled={!selectedSize || quantity === 0}
+                  onClick={() => {
+                    // Pastikan selectedVariant dan selectedSize tersedia
+                    if (selectedVariant && selectedSize) {
+                      // Cari inventory yang sesuai dengan size yang dipilih
+                      const selectedInventory =
+                        selectedVariant.inventories?.find(
+                          (inv) => inv.size === selectedSize
+                        );
 
-                    if (selectedInventory) {
-                      add.mutate({
-                        variant_id: selectedVariant.id as string,
-                        inventory_id: selectedInventory.id as number,
-                        quantity: quantity,
-                      });
+                      if (selectedInventory) {
+                        add.mutate({
+                          variant_id: selectedVariant.id as string,
+                          inventory_id: selectedInventory.id as number,
+                          quantity: quantity,
+                        });
+                      }
                     }
-                  }
-                }}>
-                <ShoppingCart className="w-5 h-5" />
-                Add to Cart
-              </Button>
+                  }}>
+                  <ShoppingCart className="w-5 h-5" />
+                  Add to Cart
+                </Button>
 
-              <Button variant="outline" size="icon">
-                <Heart className="w-5 h-5" />
-              </Button>
-            </div>
+                <Button variant="outline" size="icon">
+                  <Heart className="w-5 h-5" />
+                </Button>
+              </div>
+            )}
 
             {/* Product Description */}
             <div>

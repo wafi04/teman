@@ -22,6 +22,8 @@ export type STATUS =
 export type CheckoutForm = {
   shipping_address: string;
   payment_method: string;
+  bank_name?: string;
+  virtual_account?: string;
 };
 type ProductVariant = {
   id: string;
@@ -55,6 +57,8 @@ export type Order = {
   status: STATUS;
   total_amount: string;
   shipping_address: string | null;
+  bank_name: string | null;
+  virtual_account: string | null;
   payment_method: string | null;
   checkout_at: string | null;
   created_at: string;

@@ -5,7 +5,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Product } from "../../types/products";
 
-export function Slider({ data }: { data: Product[] }) {
+export function Slider({
+  data,
+  variant = "SliderData",
+}: {
+  data: Product[];
+  variant?: "SliderData" | "SLiderData2";
+}) {
   const [startIndex, setStartIndex] = useState(0);
   const [visibleItems, setVisibleItems] = useState(4);
 
@@ -43,11 +49,15 @@ export function Slider({ data }: { data: Product[] }) {
 
   const displayedItems = data.slice(startIndex, startIndex + visibleItems);
 
+  // Dynamic component selection
+  const SliderItemComponent =
+    variant === "SLiderData2" ? SLiderData2 : SliderData;
+
   return (
     <div className="relative w-full py-8">
       <div className={`grid grid-cols-${visibleItems} gap-4 w-full`}>
         {displayedItems.map((item) => (
-          <SliderData key={item.id} item={item} />
+          <SliderItemComponent key={item.id} item={item} />
         ))}
       </div>
       <Button
@@ -93,6 +103,33 @@ export function SliderData({ item }: { item: Product }) {
             <h3 className="absolute bottom-4 left-4 text-md text-white">
               {item.name}
             </h3>
+          </div>
+        </Link>
+      </CardContent>
+    </Card>
+  );
+}
+
+export function SLiderData2({ item }: { item: Product }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <Card
+      className="w-full overflow-hidden rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}>
+      <CardContent className="p-0">
+        <Link to={`/p/${item.id}`}>
+          <div className="relative h-[280px] w-full overflow-hidden">
+            {item.variants && (
+              <img
+                src={item.variants[0].image as string}
+                alt={item.name}
+                className="w-full h-full object-cover transform transition-transform duration-500 ease-out"
+                style={{ transform: isHovered ? "scale(1.2)" : "scale(1)" }}
+              />
+            )}
+            <h3 className="absolute bottom-4 left-4 text-md">{item.name}</h3>
           </div>
         </Link>
       </CardContent>

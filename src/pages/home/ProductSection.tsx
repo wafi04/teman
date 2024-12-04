@@ -4,7 +4,6 @@ import { Slider } from "./Slider";
 
 export function ProductSection() {
   const { data } = useGetProducts();
-  console.log(data);
 
   const products = data?.pages.flatMap((p) => p.data);
 

@@ -13,7 +13,6 @@ export function DashboardCheckout() {
     return <LoadingOverlay />;
   }
 
-  // Calculate total items and total amount
   const totalItems =
     data?.reduce((sum, order) => sum + order.order_items.length, 0) || 0;
 

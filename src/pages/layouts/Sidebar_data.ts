@@ -42,11 +42,6 @@ export const menuItems = [
     label: "Notifications",
     path: "/dashboard/notifications",
   },
-  {
-    icon: User,
-    label: "Profile",
-    path: "/dashboard/profile",
-  },
 ];
 
 // Helper function to filter menu items based on user role
