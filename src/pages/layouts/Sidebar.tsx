@@ -13,6 +13,7 @@ const Sidebar: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
   const { isAdmin } = useAuth();
   const filteredMenuItems = getFilteredMenuItems(isAdmin);
+
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < MOBILE_BREAKPOINT;
@@ -31,13 +32,8 @@ const Sidebar: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <div className="relative min-h-screen w-full">
-      {/* Desktop Layout */}
       <div
-        className={`
-        flex 
-        ${isMobile ? "flex-col" : "flex-row"} 
-        h-full w-full
-      `}>
+        className={`flex ${isMobile ? "flex-col" : "flex-row"} h-full w-full`}>
         {/* Sidebar for Desktop */}
         {!isMobile && (
           <motion.div
@@ -93,13 +89,7 @@ const Sidebar: React.FC<{ children: ReactNode }> = ({ children }) => {
         )}
 
         {/* Main Content */}
-        <main
-          className={`
-          flex-1
-          overflow-y-auto 
-          w-full
-          pb-40 container
-        `}>
+        <main className="flex-1 overflow-y-auto w-full pb-40 container">
           {children}
         </main>
 
@@ -113,7 +103,7 @@ const Sidebar: React.FC<{ children: ReactNode }> = ({ children }) => {
             px-4 py-2
           ">
             <div className="flex justify-around items-center">
-              {menuItems.map((item) => (
+              {filteredMenuItems.map((item) => (
                 <MenuItem key={item.path} {...item} isExpanded={false} />
               ))}
             </div>

@@ -4,9 +4,8 @@ import { Slider } from "../home/Slider";
 import { HeaderDashboard } from "./components/Header";
 
 export function DashboardHome() {
-  const { data } = useGetProducts();
+  const { data: products } = useGetProducts();
 
-  const products = data?.pages.flatMap((p) => p.data);
   return (
     <section className="p-6 space-y-6 h-[80vh] overflow-y-auto">
       <HeaderDashboard title="Dashboard" subTitle="Dashboard" />

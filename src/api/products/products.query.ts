@@ -50,25 +50,22 @@ export function useUpdateProducts() {
   });
 }
 export function useGetProducts(search?: string) {
-  return useInfiniteQuery<ProductResponse, Error>({
+  return useQuery({
     queryKey: ["products", search],
-    queryFn: async ({ pageParam = 1 }) => {
+    queryFn: async () => {
       const queryParams = new URLSearchParams();
 
       if (search) {
         queryParams.append("search", search);
       }
 
-      const req = await fetch(
-        `${BASE_URL}/products?page=${pageParam}&${queryParams.toString()}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const req = await fetch(`${BASE_URL}/products${queryParams.toString()}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!req.ok) {
         toast.error("Error get product");
@@ -77,14 +74,8 @@ export function useGetProducts(search?: string) {
 
       return await req.json();
     },
-    getNextPageParam: (lastPage) => {
-      return lastPage.current_page < lastPage.last_page
-        ? lastPage.current_page + 1
-        : undefined;
-    },
-    initialPageParam: 1,
     staleTime: 5 * 10 * 60,
-    retry: 1,
+    select: (products: any) => products.data,
   });
 }
 export function useCreateVariants() {

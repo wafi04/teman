@@ -29,8 +29,7 @@ import { DialogAddVariants, Dialogupdate } from "./dialog/products";
 import VariantsTable from "./dialog/variantsTable";
 
 export function DashboardProducts() {
-  const { data, fetchNextPage, hasNextPage, isLoading } = useGetProducts();
-  const products = data?.pages.flatMap((page) => page.data) || [];
+  const { data: products, isLoading } = useGetProducts();
 
   const columns: ColumnDef<Product>[] = [
     {
@@ -156,11 +155,6 @@ export function DashboardProducts() {
               )
             }
           />
-          {hasNextPage && (
-            <Button onClick={() => fetchNextPage()} className="w-full mt-4">
-              Load More Products
-            </Button>
-          )}
         </>
       )}
     </div>

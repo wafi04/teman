@@ -6,9 +6,13 @@ import { Order } from "../../../types/order";
 
 interface CartItemsProps {
   order: Order;
+  isAdminView?: boolean;
 }
 
-export function DetailedCartItems({ order }: CartItemsProps) {
+export function DetailedCartItems({
+  order,
+  isAdminView = false,
+}: CartItemsProps) {
   console.log(order);
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -35,7 +39,9 @@ export function DetailedCartItems({ order }: CartItemsProps) {
           <div className="flex items-center space-x-3">
             <ShoppingCart className="h-6 w-6 text-muted-foreground" />
             <h2 className="text-xl font-bold text-gray-800">
-              Order #{order.id}
+              {isAdminView
+                ? `Order by  ${order.user && order.user.name}`
+                : `Order #${order.id}`}
             </h2>
             <Badge
               variant="outline"

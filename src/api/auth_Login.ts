@@ -34,21 +34,17 @@ export function LoginMutation() {
       queryClient.cancelQueries({ queryKey: ["user"] });
     },
     onSuccess: (data) => {
-      if (data && data.data && data.data.token) {
-        // Simpan token
-        localStorage.setItem("token", data.data.token);
+      // Simpan token
+      localStorage.setItem("token", data.data.token);
 
-        // Invalidate user queries
-        queryClient.invalidateQueries({ queryKey: ["user"] });
+      // Invalidate user queries
+      queryClient.invalidateQueries({ queryKey: ["user"] });
 
-        // Success toast
-        toast.success("Login berhasil");
+      // Success toast
+      toast.success("Login berhasil");
 
-        // Navigate ke dashboard
-        window.location.href = "/dashboard";
-      } else {
-        toast.error("Gagal mendapatkan token");
-      }
+      // Navigate ke dashboard
+      window.location.href = "/dashboard";
     },
   });
 }

@@ -15,8 +15,7 @@ export default function SearchInput() {
     setOpenSearch,
     toggleSearch,
   } = useSearchHooks();
-  const { data, isFetching, status } = useGetProducts(debouncedSearch);
-  const product = data?.pages.flatMap((p) => p.data || []);
+  const { data: product, isFetching, status } = useGetProducts(debouncedSearch);
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (

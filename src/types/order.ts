@@ -54,6 +54,11 @@ type OrderItem = {
 export type Order = {
   id: string;
   user_id: number;
+  user?: {
+    name: string;
+    id: string;
+    email: string;
+  };
   status: STATUS;
   total_amount: string;
   shipping_address: string | null;

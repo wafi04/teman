@@ -39,7 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [user, isLoading, isError]);
 
   const isInitialLoading = isAuthenticated && isLoading;
-  const isAdmin = user?.data?.role === "admin" || false;
+  const isAdmin = user?.data?.role === "admin";
 
   return (
     <AuthContext.Provider

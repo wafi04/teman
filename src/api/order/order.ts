@@ -52,7 +52,7 @@ export function useCreateCart() {
 }
 
 export function getCart() {
-  const { data, isLoading, error } = useQuery<Order>({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["cart"],
     queryFn: async () => {
       const response = await fetch(`${BASE_URL}/order`, {
@@ -73,6 +73,7 @@ export function getCart() {
     gcTime: 5 * 60 * 60,
     staleTime: 5 * 60 * 60,
     retry: false,
+    select: (products) => products.data,
   });
 
   return {
@@ -80,6 +81,24 @@ export function getCart() {
     isLoading,
     error,
   };
+}
+
+export function getProductTerjual() {
+  return useQuery({
+    queryKey: ["order", "seller"],
+    queryFn: async () => {
+      const response = await fetch(`${BASE_URL}/order/orders/seller`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+      });
+
+      return response.json();
+    },
+    select: (product) => product.data,
+  });
 }
 
 export function clearCart() {

@@ -1,8 +1,6 @@
 import {
   Home,
   BarChart,
-  Settings,
-  User,
   ShoppingBag,
   ShoppingCart,
   Bell,
@@ -19,18 +17,19 @@ export const menuItems = [
     icon: Layers,
     label: "Categories",
     path: "/dashboard/category",
-    adminOnly: true, // Added explicit admin flag
+    adminOnly: true,
   },
   {
     icon: BarChart,
     label: "Products",
     path: "/dashboard/products",
-    adminOnly: true, // Added explicit admin flag
+    adminOnly: true,
   },
   {
     icon: ShoppingBag,
     label: "Cart",
     path: "/dashboard/cart",
+    adminOnly: false,
   },
   {
     icon: ShoppingCart,
@@ -46,7 +45,11 @@ export const menuItems = [
 
 // Helper function to filter menu items based on user role
 export const getFilteredMenuItems = (isAdmin: boolean) => {
-  return menuItems.filter(
-    (item) => !item.adminOnly || (item.adminOnly && isAdmin)
-  );
+  return menuItems.filter((item) => {
+    if (item.adminOnly === undefined) return true;
+    if (item.adminOnly === true) return isAdmin;
+    if (item.adminOnly === false) return !isAdmin;
+
+    return false;
+  });
 };

@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 
 export function DashboardCart() {
   const { data, error, isLoading } = getCart();
-
+  console.log(data);
   if (isLoading) {
     return <LoadingOverlay />;
   }
@@ -49,7 +49,7 @@ export function DashboardCart() {
               </Button>
             </motion.div>
           ) : (
-            data?.order_items.map((item) => (
+            data?.order_items.map((item: any) => (
               <CartItems key={item.id} items={item} onRemove={() => {}} />
             ))
           )}
